@@ -9,11 +9,11 @@ class CompressorRecipe(ConanFile):
     generators = "VirtualBuildEnv"
 
     def requirements(self):
-        self.requires("picosdk/2.1.1")
+        self.requires("picosdk/2.2.0")
 
     def build_requirements(self):
-        self.tool_requires("pioasm/2.1.1")
-        self.tool_requires("picotool/2.1.1")
+        self.tool_requires("pioasm/2.2.0")
+        self.tool_requires("picotool/2.2.0")
     
     def generate(self):
         tc = CMakeToolchain(self)
