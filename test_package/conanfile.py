@@ -1,7 +1,5 @@
-import os
 
 from conan import ConanFile
-from conan.tools.files import copy
 from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain
 
 class CompressorRecipe(ConanFile):
@@ -10,6 +8,7 @@ class CompressorRecipe(ConanFile):
 
     def requirements(self):
         self.requires("picosdk/2.2.0")
+        self.requires("micromod-header/1.0.0")
 
     def build_requirements(self):
         self.tool_requires("pioasm/2.2.0")
@@ -29,7 +28,6 @@ class CompressorRecipe(ConanFile):
             # For some reason even if I set PICO_FLASH_SIZE with PICO_BOARD=none,
             # it still doesn't work. I can't explain why.
             "PICO_BOARD": "rp2350_micromod",
-            "PICO_BOARD_HEADER_DIRS": self.source_folder,
         }
         cmake.configure(variables = defs)
         cmake.build()
