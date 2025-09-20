@@ -28,7 +28,8 @@ class CompressorRecipe(ConanFile):
             # "PICO_PLATFORM": "rp2350-arm-s",
             # For some reason even if I set PICO_FLASH_SIZE with PICO_BOARD=none,
             # it still doesn't work. I can't explain why.
-            "PICO_BOARD": "adafruit_feather_rp2350",
+            "PICO_BOARD": "rp2350_micromod",
+            "PICO_BOARD_HEADER_DIRS": self.source_folder,
         }
         cmake.configure(variables = defs)
         cmake.build()
