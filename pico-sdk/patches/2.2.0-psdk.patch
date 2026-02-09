@@ -153,6 +153,17 @@ index 84d3faf..f0dcd11 100644
  
      # ---- picolibc ----
  
+diff --git a/src/rp2_common/pico_clib_interface/picolibc_interface.c b/src/rp2_common/pico_clib_interface/picolibc_interface.c
+index 63d7913..14cb89b 100644
+--- a/src/rp2_common/pico_clib_interface/picolibc_interface.c
++++ b/src/rp2_common/pico_clib_interface/picolibc_interface.c
+@@ -151,4 +151,4 @@ PICO_RUNTIME_INIT_FUNC_PER_CORE(runtime_init_pre_core_tls_setup, PICO_RUNTIME_IN
+ //            "ldr r0, =__tls_base\n"
+ //            "bx lr\n"
+ //            );
+-//}
+\ No newline at end of file
++//}
 diff --git a/src/rp2_common/pico_crt0/CMakeLists.txt b/src/rp2_common/pico_crt0/CMakeLists.txt
 index bd41569..6b3c788 100644
 --- a/src/rp2_common/pico_crt0/CMakeLists.txt
@@ -226,10 +237,10 @@ index e190d51..e4aa5d1 100644
  # pico_minimize_runtime(TARGET [INCLUDE ...] [EXCLUDE ...])
  # \brief\ Minimize the runtime components for the target
 diff --git a/src/rp2_common/pico_standard_link/CMakeLists.txt b/src/rp2_common/pico_standard_link/CMakeLists.txt
-index c16968b..1bbe899 100644
+index c16968b..84156c3 100644
 --- a/src/rp2_common/pico_standard_link/CMakeLists.txt
 +++ b/src/rp2_common/pico_standard_link/CMakeLists.txt
-@@ -125,15 +125,14 @@ if (NOT TARGET pico_standard_link)
+@@ -125,15 +125,15 @@ if (NOT TARGET pico_standard_link)
      set(PICO_FLASH_SIZE_BYTES_STRING "${PICO_FLASH_SIZE_BYTES}")
      configure_file(${CMAKE_CURRENT_LIST_DIR}/pico_flash_region.template.ld ${CMAKE_BINARY_DIR}/pico_flash_region.ld)
      # add include path for linker scripts
@@ -247,6 +258,7 @@ index c16968b..1bbe899 100644
 +    set(_LINKER_SCRIPT_EXPRESSION "$<IF:$<BOOL:$<TARGET_PROPERTY:PICO_TARGET_LINKER_SCRIPT>>,$<TARGET_PROPERTY:PICO_TARGET_LINKER_SCRIPT>,memmap_$<IF:$<STREQUAL:$<TARGET_PROPERTY:PICO_TARGET_BINARY_TYPE>,>,${PICO_DEFAULT_BINARY_TYPE},$<TARGET_PROPERTY:PICO_TARGET_BINARY_TYPE>>.ld>")
 +    target_link_options(pico_standard_link INTERFACE "-T${_LINKER_SCRIPT_EXPRESSION}")
 +    pico_add_link_depend(pico_standard_link ${PICO_LINKER_SCRIPT_PATH}/${_LINKER_SCRIPT_EXPRESSION})
++    set_target_properties(pico_standard_link PROPERTIES RP_PICO_LINK_SCRIPT_DIR ${PICO_LINKER_SCRIPT_PATH})
      unset(_LINKER_SCRIPT_EXPRESSION)
  
      # PICO_NO_FLASH will be set based on PICO_TARGET_BUILD_TYPE target property being equal to no_flash if set, otherwise to the value of the PICO_NO_FLASH cmake variable unless PICO_TARGET_TYPE is set to something else
@@ -285,4 +297,3 @@ index 24cce4e..b4e0200 100644
      foreach(LIB IN LISTS PICO_STDLIB_LIBRARIES)
          if (TARGET ${LIB})
              pico_mirrored_target_link_libraries(pico_stdlib INTERFACE ${LIB})
-
