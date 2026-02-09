@@ -3,6 +3,7 @@ from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
 from conan.tools.files import get, patch, chdir
 from os.path import join
 
+
 class Picotool(ConanFile):
     name = "picotool"
     package_type = "application"
@@ -17,7 +18,6 @@ class Picotool(ConanFile):
 
     exports_sources = "patches/*"
 
-
     def config_options(self):
         pass
 
@@ -25,20 +25,37 @@ class Picotool(ConanFile):
         pass
 
     def requirements(self):
-        self.requires("mbedtls/2.28.9")
+        # The version of mbedtls pico uses is so
+        # ancient it CMake removed support for it.
+        self.output.error(f"{ self.conan_data["dependencies"][self.version]}")
+        for dep, version in self.conan_data["dependencies"][self.version].items():
+            self.requires(f"{dep}/{version}")
         self.requires("libusb/1.0.26")
         self.requires(f"picosdk/{self.version}")
 
     def layout(self):
-        cmake_layout(self, src_folder = 'picotool')
-    
+        cmake_layout(self, src_folder="picotool")
+
     def source(self):
-        strip = not self.version.startswith('2.1') # only 2.2.0 and on have normal directories
+        strip = not self.version.startswith(
+            "2.1"
+        )  # only 2.2.0 and on have normal directories
         with chdir(self, ".."):
             # Downloading two sources is kinda bad, but unfortunately picotool requires the sdk for some reason
-            get(self, **self.conan_data["picotool_sources"][self.version], destination = 'picotool', strip_root = strip)
-            patch_file = join(self.export_sources_folder, f"patches/{self.version}-ptool.patch")
-            patch(self, patch_file=patch_file, base_path = join(self.export_sources_folder, "picotool"))
+            get(
+                self,
+                **self.conan_data["picotool_sources"][self.version],
+                destination="picotool",
+                strip_root=strip,
+            )
+            patch_file = join(
+                self.export_sources_folder, f"patches/{self.version}-ptool.patch"
+            )
+            patch(
+                self,
+                patch_file=patch_file,
+                base_path=join(self.export_sources_folder, "picotool"),
+            )
 
     def generate(self):
         deps = CMakeDeps(self)

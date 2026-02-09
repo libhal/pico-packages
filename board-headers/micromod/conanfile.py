@@ -1,9 +1,8 @@
 from conan import ConanFile
-from conan.tools.files import get, patch, copy, chdir
-from os.path import join
+from conan.tools.files import copy
 
 class MicromodHeader(ConanFile):
-    name = "micromod-header"
+    name = "rp-board-header-micromod"
     package_type = "header-library"
 
     license = "BSD-3"
