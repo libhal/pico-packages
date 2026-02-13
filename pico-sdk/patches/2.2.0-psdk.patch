@@ -189,6 +189,22 @@ index f634f09..2c72b05 100644
  
      # add alias "default" which is just pico.
      add_library(pico_float_default INTERFACE)
+diff --git a/src/rp2_common/pico_platform_compiler/include/pico/platform/compiler.h b/src/rp2_common/pico_platform_compiler/include/pico/platform/compiler.h
+index 7f24008..3c80eaa 100644
+--- a/src/rp2_common/pico_platform_compiler/include/pico/platform/compiler.h
++++ b/src/rp2_common/pico_platform_compiler/include/pico/platform/compiler.h
+@@ -21,6 +21,11 @@
+ 
+ #if defined __GNUC__
+ #include <sys/cdefs.h>
++// picolibc does not define __printflike, polyfill it in
++#ifndef __printflike
++#define	__printflike(fmtarg, firstvararg) \
++	    __attribute__((__format__ (__printf__, fmtarg, firstvararg)))
++#endif
+ // note LLVM defines __GNUC__
+ #ifdef __clang__
+ #define PICO_C_COMPILER_IS_CLANG 1
 diff --git a/src/rp2_common/pico_platform_panic/CMakeLists.txt b/src/rp2_common/pico_platform_panic/CMakeLists.txt
 index 0ebdb17..703cd62 100644
 --- a/src/rp2_common/pico_platform_panic/CMakeLists.txt
@@ -237,7 +253,7 @@ index e190d51..e4aa5d1 100644
  # pico_minimize_runtime(TARGET [INCLUDE ...] [EXCLUDE ...])
  # \brief\ Minimize the runtime components for the target
 diff --git a/src/rp2_common/pico_standard_link/CMakeLists.txt b/src/rp2_common/pico_standard_link/CMakeLists.txt
-index c16968b..84156c3 100644
+index c16968b..8600df1 100644
 --- a/src/rp2_common/pico_standard_link/CMakeLists.txt
 +++ b/src/rp2_common/pico_standard_link/CMakeLists.txt
 @@ -125,15 +125,15 @@ if (NOT TARGET pico_standard_link)
@@ -258,7 +274,7 @@ index c16968b..84156c3 100644
 +    set(_LINKER_SCRIPT_EXPRESSION "$<IF:$<BOOL:$<TARGET_PROPERTY:PICO_TARGET_LINKER_SCRIPT>>,$<TARGET_PROPERTY:PICO_TARGET_LINKER_SCRIPT>,memmap_$<IF:$<STREQUAL:$<TARGET_PROPERTY:PICO_TARGET_BINARY_TYPE>,>,${PICO_DEFAULT_BINARY_TYPE},$<TARGET_PROPERTY:PICO_TARGET_BINARY_TYPE>>.ld>")
 +    target_link_options(pico_standard_link INTERFACE "-T${_LINKER_SCRIPT_EXPRESSION}")
 +    pico_add_link_depend(pico_standard_link ${PICO_LINKER_SCRIPT_PATH}/${_LINKER_SCRIPT_EXPRESSION})
-+    set_target_properties(pico_standard_link PROPERTIES RP_PICO_LINK_SCRIPT_DIR ${PICO_LINKER_SCRIPT_PATH})
++    set_target_properties(pico_standard_link PROPERTIES RP_PICO_LINK_SCRIPT_DIR ${PICO_LINKER_SCRIPT_PATH}) 
      unset(_LINKER_SCRIPT_EXPRESSION)
  
      # PICO_NO_FLASH will be set based on PICO_TARGET_BUILD_TYPE target property being equal to no_flash if set, otherwise to the value of the PICO_NO_FLASH cmake variable unless PICO_TARGET_TYPE is set to something else
