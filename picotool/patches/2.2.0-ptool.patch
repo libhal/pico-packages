@@ -88,3 +88,40 @@ index 4e3edb5..a8717e7 100644
              elf
              errors
              boot_picobin_headers)
+diff --git a/model/model.h b/model/model.h
+index f942ec8..de2b8f8 100644
+--- a/model/model.h
++++ b/model/model.h
+@@ -4,6 +4,13 @@
+  * SPDX-License-Identifier: BSD-3-Clause
+  */
+ #pragma once
++#ifdef __cplusplus
++#include <algorithm>
++#include <memory>
++#include <set>
++#include <string>
++#include <utility>
++#endif
+ #include "boot/uf2.h"
+ #include "boot/picoboot.h"
+ 
+@@ -39,11 +46,6 @@ typedef enum {
+ 
+ #ifdef __cplusplus
+ 
+-#include <algorithm>
+-#include <memory>
+-#include <set>
+-#include <string>
+-#include <utility>
+ #include "addresses.h"
+ #include "errors.h"
+ 
+@@ -409,4 +411,4 @@ static bool contains_unreadable_rom(uint32_t addr, uint32_t size, const model_t&
+             (addr < model->unreadable_rom_start() && addr + size > model->unreadable_rom_end());
+ }
+ 
+-#endif
+\ No newline at end of file
++#endif
