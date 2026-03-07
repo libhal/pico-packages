@@ -190,7 +190,7 @@ index f634f09..2c72b05 100644
      # add alias "default" which is just pico.
      add_library(pico_float_default INTERFACE)
 diff --git a/src/rp2_common/pico_platform_compiler/include/pico/platform/compiler.h b/src/rp2_common/pico_platform_compiler/include/pico/platform/compiler.h
-index 7f24008..a3dcdf6 100644
+index 7f24008..3c80eaa 100644
 --- a/src/rp2_common/pico_platform_compiler/include/pico/platform/compiler.h
 +++ b/src/rp2_common/pico_platform_compiler/include/pico/platform/compiler.h
 @@ -21,6 +21,11 @@
@@ -205,15 +205,6 @@ index 7f24008..a3dcdf6 100644
  // note LLVM defines __GNUC__
  #ifdef __clang__
  #define PICO_C_COMPILER_IS_CLANG 1
-@@ -182,7 +187,7 @@ __force_inline static void __compiler_memory_barrier(void) {
-  */
- #define __check_type_compatible(type_a, type_b) static_assert(__builtin_types_compatible_p(type_a, type_b), __STRING(type_a) " is not compatible with " __STRING(type_b));
- 
--#define WRAPPER_FUNC(x) __wrap_ ## x
-+#define WRAPPER_FUNC(x)  __attribute__((used)) __wrap_ ## x
- #define REAL_FUNC(x) __real_ ## x
- 
- #ifdef __cplusplus
 diff --git a/src/rp2_common/pico_platform_panic/CMakeLists.txt b/src/rp2_common/pico_platform_panic/CMakeLists.txt
 index 0ebdb17..703cd62 100644
 --- a/src/rp2_common/pico_platform_panic/CMakeLists.txt

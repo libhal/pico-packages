@@ -2,7 +2,7 @@ from conan import ConanFile
 from conan.tools.files import copy
 
 class MicromodHeader(ConanFile):
-    name = "rp-board-header-micromod"
+    name = "rp-board-header-rp2350-micromod"
     package_type = "header-library"
 
     license = "BSD-3"

@@ -13,3 +13,10 @@ sources:
     tinyusb:
       url: "https://github.com/hathach/tinyusb/archive/refs/tags/0.18.0.tar.gz"
       sha256: "e7fa1bd723213749a0362c79eaccc99e84c8adea8f0a63588c4e4812608b7aa9"
+  "2.2.1-alpha":
+    sdk:
+      url: "https://github.com/DolphinGui/pico-sdk-libhal/archive/refs/tags/2.2.1-alpha.tar.gz"
+      sha256: "41b8a04968976831266ddc822d9c6c13e5647507780252777c451ac9703d9f32"
+    tinyusb:
+      url: "https://github.com/hathach/tinyusb/archive/refs/tags/0.18.0.tar.gz"
+      sha256: "e7fa1bd723213749a0362c79eaccc99e84c8adea8f0a63588c4e4812608b7aa9"
