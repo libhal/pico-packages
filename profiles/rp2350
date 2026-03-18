@@ -1,14 +1,18 @@
 [settings]
-build_type=MinSizeRel
 os=baremetal
-arch=cortex-m33
 build_type=RelWithDebInfo
+arch=cortex-m33f
 
 [options]
 *:platform=rp2350-arm-s
+prebuilt-picolibc/*:oslib=semihost
+prebuilt-picolibc/*:crt0=none
+libhal-arm-mcu/*:use_default_linker_script=False
+
 [buildenv]
 CC=arm-none-eabi-gcc
 CXX=arm-none-eabi-g++
 LD=arm-none-eabi-ld
+
 [conf]
 tools.cmake.cmaketoolchain:generator=Ninja

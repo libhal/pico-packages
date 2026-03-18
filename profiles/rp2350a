@@ -1,0 +1,5 @@
+include(rp2350)
+
+[options]
+*:variant=rp2350a
+

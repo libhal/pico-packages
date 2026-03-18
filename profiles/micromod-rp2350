@@ -1,0 +1,5 @@
+include(rp2350b)
+
+[options]
+*:board=libhal_rp2350_micromod
+*:micromod_board=mod-rp2350b
