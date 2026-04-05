@@ -1,0 +1,2 @@
+[conf]
+tools.build:sysroot=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk

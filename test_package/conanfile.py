@@ -2,18 +2,19 @@
 from conan import ConanFile
 from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain
 
+
 class CompressorRecipe(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "VirtualBuildEnv"
 
     def requirements(self):
         self.requires("picosdk/2.2.0")
-        self.requires("micromod-header/1.0.0")
+        self.requires("rp-board-header-rp2350-micromod/1.0.0")
 
     def build_requirements(self):
         self.tool_requires("pioasm/2.2.0")
         self.tool_requires("picotool/2.2.0")
-    
+
     def generate(self):
         tc = CMakeToolchain(self)
         tc.generate()
@@ -29,5 +30,5 @@ class CompressorRecipe(ConanFile):
             # it still doesn't work. I can't explain why.
             "PICO_BOARD": "rp2350_micromod",
         }
-        cmake.configure(variables = defs)
+        cmake.configure(variables=defs)
         cmake.build()

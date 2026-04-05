@@ -6,9 +6,3 @@ build_type=RelWithDebInfo
 
 [options]
 *:platform=rp2350-arm-s
-[buildenv]
-CC=arm-none-eabi-gcc
-CXX=arm-none-eabi-g++
-LD=arm-none-eabi-ld
-[conf]
-tools.cmake.cmaketoolchain:generator=Ninja
