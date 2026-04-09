@@ -59,19 +59,21 @@ jobs:
           JFROG_USER: ${{ secrets.JFROG_LIBHAL_TRUNK_ID_TOKEN_USER }}
         run: conan remote login -p $PASSWORD libhal $JFROG_USER
 
-      # Upload Packages
+      # TODO(#5): Check that demo builds correctly
 
-      - if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        run: conan upload "libusb/*" --confirm -r=libhal
+      # Upload Packages: disabled for now as we fix 
 
-      - if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        run: conan upload "mbedlts/*" --confirm -r=libhal
+      # - if: ${{ startsWith(github.ref, 'refs/tags/') }}
+      #   run: conan upload "libusb/*" --confirm -r=libhal
 
-      - if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        run: conan upload "pioasm/*" --confirm -r=libhal
+      # - if: ${{ startsWith(github.ref, 'refs/tags/') }}
+      #   run: conan upload "mbedlts/*" --confirm -r=libhal
 
-      - if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        run: conan upload "pico-sdk/*" --confirm -r=libhal
+      # - if: ${{ startsWith(github.ref, 'refs/tags/') }}
+      #   run: conan upload "pioasm/*" --confirm -r=libhal
+
+      # - if: ${{ startsWith(github.ref, 'refs/tags/') }}
+      #   run: conan upload "pico-sdk/*" --confirm -r=libhal
 
       - if: ${{ startsWith(github.ref, 'refs/tags/') }}
         run: conan upload "picotool/*" --confirm -r=libhal
