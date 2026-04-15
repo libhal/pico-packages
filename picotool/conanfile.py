@@ -1,36 +1,49 @@
+# MIT License
+#
+# Copyright (c) 2025 Shin Umeda
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
 from conan.tools.files import get, patch, chdir
-from os.path import join
+from pathlib import Path
 
 
 class Picotool(ConanFile):
     name = "picotool"
     package_type = "application"
-
     license = "BSD-3"
     author = "<Shin Umeda> <umeda.shin@gmail.com>"
-    url = "https://github.com/DolphinGui/pico-sdk-libhal"
+    url = "https://github.com/libhal/pico-packages"
     description = "The Raspberry Pi Picotool repackaged for conan"
     topics = ("Embedded", "Raspberry Pi Pico", "ARM")
-
     settings = "os", "compiler", "build_type", "arch"
-
     exports_sources = "patches/*"
 
-    def config_options(self):
-        pass
-
-    def configure(self):
-        pass
-
     def requirements(self):
-        # The version of mbedtls pico uses is so
-        # ancient it CMake removed support for it.
-        self.output.error(f"{ self.conan_data["dependencies"][self.version]}")
-        for dep, version in self.conan_data["dependencies"][self.version].items():
+        DEPENDENCIES_VERSION = self.conan_data["dependencies"][self.version]
+        self.output.error(f"{DEPENDENCIES_VERSION}")
+        for dep, version in DEPENDENCIES_VERSION.items():
             self.requires(f"{dep}/{version}")
-        self.requires("libusb/1.0.26")
+
+        self.requires("libusb/1.0.29")
         self.requires(f"picosdk/{self.version}")
 
     def layout(self):
@@ -48,13 +61,13 @@ class Picotool(ConanFile):
                 destination="picotool",
                 strip_root=strip,
             )
-            patch_file = join(
-                self.export_sources_folder, f"patches/{self.version}-ptool.patch"
-            )
+            EXPORT_SOURCE = Path(self.export_sources_folder)
+            PATCH_NAME = f"{self.version}-ptool.patch"
+            PATCH_FILE = EXPORT_SOURCE / "patches" / PATCH_NAME
             patch(
                 self,
-                patch_file=patch_file,
-                base_path=join(self.export_sources_folder, "picotool"),
+                patch_file=str(PATCH_FILE),
+                base_path=EXPORT_SOURCE / "picotool",
             )
 
     def generate(self):
@@ -71,6 +84,3 @@ class Picotool(ConanFile):
     def package(self):
         cmake = CMake(self)
         cmake.install()
-
-    def package_info(self):
-        pass

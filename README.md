@@ -1,9 +1,35 @@
 # Pico Packages
 
-This repository contains conan package files for the Raspberry Pi Pico C/C++
-SDK. This repository also seperately packages `pioasm` and `picotool` seperately
-such that they may be consumed by conan packages as tool requirements. Various
-patches are included so picosdk works better with conan dependencies.
+
+These are conan packages for the Pico SDK for the Raspberry Pi Pico family of
+microcontrollers.
+
+## CI Deployed Packages
+
+### Tool Packages
+
+### OS Tools
+
+For Mac and Linux
+
+- libusb:
+  - 1.0.26
+
+> [!WARNING]
+> Windows development is currently not supported
+
+### PicoSDK Packages
+
+Versions:
+
+- 2.1.1
+- 2.2.0
+- 2.2.1-alpha
+
+Packages contained:
+
+- pioasm
+- picotool/pioasm/pico-sdk:
 
 ## Building
 
