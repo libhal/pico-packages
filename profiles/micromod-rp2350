@@ -2,4 +2,7 @@ include(rp2350b)
 
 [options]
 *:board=libhal_rp2350_micromod
-*:micromod_board=mod-rp2350b
+*:flash_size=(8 * 1024 * 1024)
+*:flash_clkdiv=2
+*:rp_revision=a2
+*:use_w25q_flash=True
