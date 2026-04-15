@@ -16,6 +16,13 @@ add_executable(main main.cpp)
 
 target_compile_options(main PRIVATE -Wall -Werror)
 target_link_libraries(main pico_stdlib hardware_gpio pico_stdio)
+# This is necessary to get LTO to work, but for some reason it doesn't build when
+# it's off. TODO investigate further
+target_compile_definitions(main PUBLIC PICO_STDIO_SHORT_CIRCUIT_CLIB_FUNCS=0)
+
+include(CheckIPOSupported)
+check_ipo_supported()
+set_property(TARGET main PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
 
 pico_add_extra_outputs(main)
 pico_enable_stdio_usb(main 1)

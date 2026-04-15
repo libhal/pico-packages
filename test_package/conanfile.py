@@ -4,11 +4,11 @@ from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain
 
 class CompressorRecipe(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
+    options = {"board": ["ANY"], "platform": ["ANY"], "variant": ["ANY"]}
     generators = "VirtualBuildEnv"
 
     def requirements(self):
         self.requires("picosdk/2.2.0")
-        self.requires("micromod-header/1.0.0")
 
     def build_requirements(self):
         self.tool_requires("pioasm/2.2.0")
@@ -16,6 +16,9 @@ class CompressorRecipe(ConanFile):
     
     def generate(self):
         tc = CMakeToolchain(self)
+        if str(self.options.platform).startswith("rp2"):
+            if self.options.board:
+                tc.cache_variables["PICO_BOARD"] = str(self.options.board)
         tc.generate()
         deps = CMakeDeps(self)
         deps.generate()
@@ -24,10 +27,6 @@ class CompressorRecipe(ConanFile):
         cmake = CMake(self)
         defs = {
             "CMAKE_ASM_FLAGS_INIT": "-mcpu=cortex-m33 -mfloat-abi=soft",
-            # "PICO_PLATFORM": "rp2350-arm-s",
-            # For some reason even if I set PICO_FLASH_SIZE with PICO_BOARD=none,
-            # it still doesn't work. I can't explain why.
-            "PICO_BOARD": "rp2350_micromod",
         }
         cmake.configure(variables = defs)
         cmake.build()
