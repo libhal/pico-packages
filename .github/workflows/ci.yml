@@ -45,7 +45,7 @@ jobs:
       - run: conan create pioasm --version=2.2.0 -pr:a hal/tc/llvm -b missing
 
       - if: ${{ startsWith(matrix.os, 'macos') }}
-        run: conan create picotool -b missing --version=2.2.0 -pr:a hal/tc/llvm -pr:a profiles/macos-build
+        run: conan create picotool -b missing --version=2.2.0 -pr:a hal/tc/llvm -c tools.build:sysroot=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
 
       - if: ${{ startsWith(matrix.os, 'ubuntu') }}
         run: sudo -E $(which conan) create picotool -b missing --version=2.2.0 -pr:a hal/tc/llvm -c tools.system.package_manager:mode=install
