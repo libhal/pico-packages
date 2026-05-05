@@ -53,27 +53,19 @@ jobs:
       - if: ${{ startsWith(matrix.os, 'windows') }}
         run: conan create picotool -b missing --version=2.2.0 -c tools.cmake.cmaketoolchain:generator="NMake Makefiles"
 
-      # - name: 📡 Sign into JFrog Artifactory
-      #   env:
-      #     PASSWORD: ${{ secrets.JFROG_LIBHAL_TRUNK_ID_TOKEN }}
-      #     JFROG_USER: ${{ secrets.JFROG_LIBHAL_TRUNK_ID_TOKEN_USER }}
-      #   run: conan remote login -p $PASSWORD libhal $JFROG_USER
+      - name: 📡 Sign into JFrog Artifactory
+        env:
+          PASSWORD: ${{ secrets.JFROG_LIBHAL_TRUNK_ID_TOKEN }}
+          JFROG_USER: ${{ secrets.JFROG_LIBHAL_TRUNK_ID_TOKEN_USER }}
+        run: conan remote login -p $PASSWORD libhal $JFROG_USER
 
       # TODO(#5): Check that demo builds correctly
 
-      # Upload Packages: disabled for now as we fix 
+      - if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        run: conan upload "pioasm/*" --confirm -r=libhal
 
-      # - if: ${{ startsWith(github.ref, 'refs/tags/') }}
-      #   run: conan upload "libusb/*" --confirm -r=libhal
+      - if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        run: conan upload "pico-sdk/*" --confirm -r=libhal
 
-      # - if: ${{ startsWith(github.ref, 'refs/tags/') }}
-      #   run: conan upload "mbedlts/*" --confirm -r=libhal
-
-      # - if: ${{ startsWith(github.ref, 'refs/tags/') }}
-      #   run: conan upload "pioasm/*" --confirm -r=libhal
-
-      # - if: ${{ startsWith(github.ref, 'refs/tags/') }}
-      #   run: conan upload "pico-sdk/*" --confirm -r=libhal
-
-      # - if: ${{ startsWith(github.ref, 'refs/tags/') }}
-      #   run: conan upload "picotool/*" --confirm -r=libhal
+      - if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        run: conan upload "picotool/*" --confirm -r=libhal
