@@ -1,7 +1,6 @@
 include(rp2350b)
 
 [options]
-*:board=libhal_rp2350_micromod
 *:flash_size=(8 * 1024 * 1024)
 *:flash_clkdiv=2
 *:rp_revision=a2

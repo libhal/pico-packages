@@ -1,13 +1,12 @@
 [settings]
+build_type=Release
 os=baremetal
-build_type=RelWithDebInfo
 arch=cortex-m33f
 
 [options]
 *:platform=rp2350-arm-s
 prebuilt-picolibc/*:oslib=semihost
 prebuilt-picolibc/*:crt0=none
-libhal-arm-mcu/*:use_default_linker_script=False
 
 [buildenv]
 CC=arm-none-eabi-gcc
