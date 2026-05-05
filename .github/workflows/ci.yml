@@ -53,11 +53,11 @@ jobs:
       - if: ${{ startsWith(matrix.os, 'windows') }}
         run: conan create picotool -b missing --version=2.2.0 -c tools.cmake.cmaketoolchain:generator="NMake Makefiles"
 
-      - name: 📡 Sign into JFrog Artifactory
-        env:
-          PASSWORD: ${{ secrets.JFROG_LIBHAL_TRUNK_ID_TOKEN }}
-          JFROG_USER: ${{ secrets.JFROG_LIBHAL_TRUNK_ID_TOKEN_USER }}
-        run: conan remote login -p $PASSWORD libhal $JFROG_USER
+      # - name: 📡 Sign into JFrog Artifactory
+      #   env:
+      #     PASSWORD: ${{ secrets.JFROG_LIBHAL_TRUNK_ID_TOKEN }}
+      #     JFROG_USER: ${{ secrets.JFROG_LIBHAL_TRUNK_ID_TOKEN_USER }}
+      #   run: conan remote login -p $PASSWORD libhal $JFROG_USER
 
       # TODO(#5): Check that demo builds correctly
 
