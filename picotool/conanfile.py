@@ -74,6 +74,7 @@ class Picotool(ConanFile):
         deps = CMakeDeps(self)
         deps.generate()
         tc = CMakeToolchain(self)
+        tc.preprocessor_definitions["NOMINMAX"] = "1"
         tc.generate()
 
     def build(self):

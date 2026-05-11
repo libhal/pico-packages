@@ -1,5 +1,6 @@
 # Pico Packages
 
+
 These are conan packages for the Pico SDK for the Raspberry Pi Pico family of
 microcontrollers.
 
@@ -23,21 +24,46 @@ Versions:
 
 - 2.1.1
 - 2.2.0
+- 2.2.1-alpha
 
 Packages contained:
 
 - pioasm
 - picotool/pioasm/pico-sdk:
 
-## Building the Packages
+## Building
 
-First build the tool packages needed for picosdk to build PIO assembly code
+`pico-sdk` is a pure source package and does not require any profile to build.
+Use `conan create pico-sdk --version <version>` and it should just work. The current
+version that is supported is `2.2.1-alpha` since it has hard-floating point ABI support.
+`2.2.0` is also supported for soft-fp ABI, and is required to build picotool and pioasm.
 
-```bash
-conan create pioasm --version=2.2.0 -pr:a hal/tc/llvm -b missing
-conan create piosdk --version=2.2.0
-conan create picotool --version=2.2.0 -pr:a hal/tc/llvm -b missing
+```sh
+conan create pico-sdk --version 2.2.1-alpha
 ```
 
-For macOS add `-pr:a profiles/macos-build` in order to ensure that the LLVM
-toolchain gets its sysroot set.
+`picotool` is a host software used to generate uf2 files and upload firmware. Use either
+the default conan profile, or whatever conan profile you use to build host software. `picotool`
+is currently tested to work on `2.2.0`, which depends on `pico-sdk/2.2.0`.
+
+```sh
+conan create picotool --version 2.2.0
+```
+
+`pioasm` is a host software used to assemble pio programs. It is not necessary unless you are
+developing programs using the pio peripheral. `pioasm` is currently known to build on `2.2.0`, which
+depends on `pico-sdk/2.2.0`.
+
+```sh
+conan create pioasm --version 2.2.0
+```
+
+`test_package` is a small program demonstrating the usage of `pico-sdk` and `picotool`. It is intended
+as a guide on configuring dependents on how to use `pico-sdk`.
+
+```sh
+conan build test_package -pr:h hal/tc/arm-gcc-14.2 -pr:h feather-rp2350 -of build
+```
+
+Using `pico-sdk/2.2.1-alpha` with `picotool/2.2.0` is perfectly acceptable and the expected way to build
+projects until `pico-sdk/2.2.1` becomes formally released.

@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: 🏗️ Build pioasm, picosdk, picotool
+name: 🏗️ Build all packages
 
 on:
   workflow_dispatch:
@@ -31,7 +31,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-24.04, macos-latest]
+        os: [ubuntu-24.04, macos-latest, windows-2022]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -41,17 +41,17 @@ jobs:
 
       # Build picosdk 2.2.0
 
-      - run: conan create pioasm --version=2.2.0 -pr:a hal/tc/llvm -b missing
       - run: conan create pico-sdk --version=2.2.0
+      - run: conan create pioasm --version=2.2.0 -pr:a hal/tc/llvm -b missing
 
       - if: ${{ startsWith(matrix.os, 'macos') }}
-        run: conan create picotool -b missing --version=2.2.0 -pr:a hal/tc/llvm -pr:a profiles/macos-build
+        run: conan create picotool -b missing --version=2.2.0 -pr:a hal/tc/llvm -c tools.build:sysroot=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
 
       - if: ${{ startsWith(matrix.os, 'ubuntu') }}
         run: sudo -E $(which conan) create picotool -b missing --version=2.2.0 -pr:a hal/tc/llvm -c tools.system.package_manager:mode=install
 
       - if: ${{ startsWith(matrix.os, 'windows') }}
-        run: conan create picotool -b missing --version=2.2.0 -pr:a hal/tc/llvm
+        run: conan create picotool -b missing --version=2.2.0 -c tools.cmake.cmaketoolchain:generator="NMake Makefiles"
 
       - name: 📡 Sign into JFrog Artifactory
         env:
@@ -61,19 +61,11 @@ jobs:
 
       # TODO(#5): Check that demo builds correctly
 
-      # Upload Packages: disabled for now as we fix 
+      - if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        run: conan upload "pioasm/*" --confirm -r=libhal
 
-      # - if: ${{ startsWith(github.ref, 'refs/tags/') }}
-      #   run: conan upload "libusb/*" --confirm -r=libhal
-
-      # - if: ${{ startsWith(github.ref, 'refs/tags/') }}
-      #   run: conan upload "mbedlts/*" --confirm -r=libhal
-
-      # - if: ${{ startsWith(github.ref, 'refs/tags/') }}
-      #   run: conan upload "pioasm/*" --confirm -r=libhal
-
-      # - if: ${{ startsWith(github.ref, 'refs/tags/') }}
-      #   run: conan upload "pico-sdk/*" --confirm -r=libhal
+      - if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        run: conan upload "pico-sdk/*" --confirm -r=libhal
 
       - if: ${{ startsWith(github.ref, 'refs/tags/') }}
         run: conan upload "picotool/*" --confirm -r=libhal

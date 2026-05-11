@@ -1,0 +1,5 @@
+include(rp2350a)
+
+[options]
+*:board=adafruit_feather_rp2350
+
