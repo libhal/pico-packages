@@ -74,7 +74,7 @@ jobs:
         run: conan upload "pioasm/*" --confirm -r=libhal
 
       - if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        run: conan upload "pico-sdk/*" --confirm -r=libhal
+        run: conan upload "picosdk/*" --confirm -r=libhal
 
       - if: ${{ startsWith(github.ref, 'refs/tags/') }}
         run: conan upload "picotool/*" --confirm -r=libhal
