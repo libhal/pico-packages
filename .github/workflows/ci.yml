@@ -42,6 +42,7 @@ jobs:
       # Build picosdk 2.2.0
 
       - run: conan create pico-sdk --version=2.2.0
+      - run: conan create pico-sdk --version=2.2.1-alpha
       - run: conan create pioasm --version=2.2.0 -pr:a hal/tc/llvm -b missing
 
       - if: ${{ startsWith(matrix.os, 'macos') }}
