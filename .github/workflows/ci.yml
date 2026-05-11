@@ -57,7 +57,7 @@ jobs:
         env:
           PASSWORD: ${{ secrets.JFROG_LIBHAL_TRUNK_ID_TOKEN }}
           JFROG_USER: ${{ secrets.JFROG_LIBHAL_TRUNK_ID_TOKEN_USER }}
-        run: conan remote login -p $PASSWORD libhal $JFROG_USER
+        run: conan remote login -p $Env:PASSWORD libhal $Env:JFROG_USER
 
       # TODO(#5): Check that demo builds correctly
 
