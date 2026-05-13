@@ -49,7 +49,7 @@ jobs:
         run: conan create picotool -b missing --version=2.2.0 -pr:a hal/tc/llvm -c tools.build:sysroot=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
 
       - if: ${{ startsWith(matrix.os, 'ubuntu') }}
-        run: sudo apt-get install libusb libusb-dev
+        run: sudo apt install -y libusb libusb-dev
 
       - if: ${{ startsWith(matrix.os, 'ubuntu') }}
         run: conan create picotool -b missing --version=2.2.0 -pr:a hal/tc/llvm
