@@ -85,3 +85,7 @@ class Picotool(ConanFile):
     def package(self):
         cmake = CMake(self)
         cmake.install()
+
+    def package_id(self):
+        del self.info.settings.compiler
+        del self.info.settings.build_type
