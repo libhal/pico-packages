@@ -73,5 +73,6 @@ class PioASM(ConanFile):
         cmake = CMake(self)
         cmake.install()
 
-    def package_info(self):
-        pass
+    def package_id(self):
+        del self.info.settings.compiler
+        del self.info.settings.build_type
