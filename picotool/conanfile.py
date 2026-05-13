@@ -46,6 +46,9 @@ class Picotool(ConanFile):
         self.requires("libusb/1.0.29")
         self.requires(f"picosdk/{self.version}")
 
+    def configure(self):
+        self.options["libusb/*"].shared = False
+
     def layout(self):
         cmake_layout(self, src_folder="picotool")
 
