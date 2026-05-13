@@ -70,6 +70,9 @@ class Picotool(ConanFile):
                 base_path=EXPORT_SOURCE / "picotool",
             )
 
+    def configure(self):
+        self.options["libusb/*"].shared = False
+
     def generate(self):
         deps = CMakeDeps(self)
         deps.generate()
