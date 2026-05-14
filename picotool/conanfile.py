@@ -92,4 +92,4 @@ class Picotool(ConanFile):
     def package_id(self):
         del self.info.settings.compiler
         del self.info.settings.build_type
-        del self.info.requires
+        self.info.requires.clear()
