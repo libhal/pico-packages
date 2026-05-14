@@ -58,4 +58,4 @@ class PicoSDK(ConanFile):
         self.cpp_info.libdirs = []  # nothing is being built
 
     def package_id(self):
-        self.info.settings.clear()
+        self.info.clear()

@@ -76,3 +76,4 @@ class PioASM(ConanFile):
     def package_id(self):
         del self.info.settings.compiler
         del self.info.settings.build_type
+        del self.info.requires
