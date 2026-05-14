@@ -55,7 +55,7 @@ jobs:
         run: conan create picotool -b missing --version=2.2.0 -pr:a hal/tc/llvm
 
       - if: ${{ startsWith(matrix.os, 'windows') }}
-        run: conan create picotool -b missing --version=2.2.0 -c tools.cmake.cmaketoolchain:generator="NMake Makefiles"
+        run: conan create picotool --version=2.2.0 -c tools.cmake.cmaketoolchain:generator="NMake Makefiles"
 
       - if: ${{ ! startsWith(matrix.os, 'windows') }}
         name: 📡 Sign into JFrog Artifactory
