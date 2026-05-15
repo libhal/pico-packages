@@ -43,8 +43,8 @@ class Picotool(ConanFile):
         for dep, version in DEPENDENCIES_VERSION.items():
             self.requires(f"{dep}/{version}")
 
-        self.requires("libusb/1.0.29")
-        self.requires(f"picosdk/{self.version}")
+        self.requires("libusb/1.0.29", visible=False)
+        self.requires(f"picosdk/{self.version}", visible=False)
 
     def layout(self):
         cmake_layout(self, src_folder="picotool")
