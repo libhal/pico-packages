@@ -39,7 +39,7 @@ class PioASM(ConanFile):
     exports_sources = "patches/*"
 
     def build_requirements(self):
-        self.tool_requires("cmake/[^4.0.0]", visibility=False)
+        self.tool_requires("cmake/[^4.0.0]")
 
     def layout(self):
         cmake_layout(self)
