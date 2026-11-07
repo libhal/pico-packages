@@ -1,0 +1,17 @@
+[settings]
+build_type=Release
+os=baremetal
+arch=cortex-m0
+
+[options]
+*:platform=rp2040
+prebuilt-picolibc/*:oslib=semihost
+prebuilt-picolibc/*:crt0=none
+
+[buildenv]
+CC=arm-none-eabi-gcc
+CXX=arm-none-eabi-g++
+LD=arm-none-eabi-ld
+
+[conf]
+tools.cmake.cmaketoolchain:generator=Ninja
